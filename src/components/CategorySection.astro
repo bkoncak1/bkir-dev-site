@@ -1,0 +1,33 @@
+---
+import LinkCard from "./LinkCard.astro";
+
+interface Link {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+interface Props {
+  title: string;
+  icon?: string;
+  links: Link[];
+}
+
+const { title, icon, links } = Astro.props;
+---
+
+<section
+  class="category-section rounded-xl border border-neutral-800/80 bg-neutral-900/40 p-4"
+  data-title={title.toLowerCase()}
+>
+  <h2 class="mb-3 flex items-center gap-2 text-sm font-semibold tracking-wide text-neutral-300 uppercase">
+    {icon && <span class="text-base">{icon}</span>}
+    <span>{title}</span>
+    <span class="ml-auto text-xs font-normal text-neutral-500">
+      {links.length}
+    </span>
+  </h2>
+  <div class="flex flex-col gap-0.5">
+    {links.map((link) => <LinkCard {...link} />)}
+  </div>
+</section>

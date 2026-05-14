@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import CategorySection from "../components/CategorySection.astro";
+
+const categories = (await getCollection("categories")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const totalLinks = categories.reduce(
+  (sum, c) => sum + c.data.links.length,
+  0
+);
+---
+
+<Layout title="Startpagina">
+  <main class="mx-auto max-w-7xl px-4 py-8 sm:py-12">
+    <header class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          Startpagina
+        </h1>
+        <p class="text-sm text-neutral-400">
+          {categories.length} categorieën · {totalLinks} links
+        </p>
+      </div>
+      <div class="relative w-full sm:w-80">
+        <input
+          id="search"
+          type="search"
+          placeholder="Filter links… (druk een toets)"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          class="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm text-neutral-100 placeholder-neutral-500 focus:border-neutral-600 focus:outline-none"
+        />
+      </div>
+    </header>
+
+    <div
+      id="grid"
+      class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    >
+      {
+        categories.map((category) => (
+          <CategorySection
+            title={category.data.title}
+            icon={category.data.icon}
+            links={category.data.links}
+          />
+        ))
+      }
+    </div>
+
+    <p
+      id="empty"
+      class="mt-12 hidden text-center text-sm text-neutral-500"
+    >
+      Geen links gevonden.
+    </p>
+  </main>
+
+  <script>
+    const input = document.getElementById("search") as HTMLInputElement;
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(".link-item")
+    );
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>(".category-section")
+    );
+    const empty = document.getElementById("empty")!;
+
+    function applyFilter(q: string) {
+      const query = q.trim().toLowerCase();
+      let visible = 0;
+
+      for (const link of links) {
+        const haystack =
+          (link.dataset.title ?? "") +
+          " " +
+          (link.dataset.host ?? "") +
+          " " +
+          (link.dataset.desc ?? "");
+        const match = !query || haystack.includes(query);
+        link.classList.toggle("hidden", !match);
+        if (match) visible++;
+      }
+
+      for (const section of sections) {
+        const anyVisible = section.querySelectorAll(
+          ".link-item:not(.hidden)"
+        ).length;
+        section.classList.toggle("hidden", anyVisible === 0);
+      }
+
+      empty.classList.toggle("hidden", visible !== 0);
+    }
+
+    input.addEventListener("input", () => applyFilter(input.value));
+
+    // Auto-focus search on any printable keystroke
+    document.addEventListener("keydown", (e) => {
+      if (e.target === input) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "Escape") {
+        input.value = "";
+        applyFilter("");
+        input.blur();
+        return;
+      }
+      if (e.key.length === 1) {
+        input.focus();
+      }
+    });
+
+    // Submit Enter → if exactly one link visible, navigate to it
+    input.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return;
+      const visible = links.filter((l) => !l.classList.contains("hidden"));
+      if (visible.length >= 1) {
+        e.preventDefault();
+        visible[0].click();
+      }
+    });
+  </script>
+</Layout>

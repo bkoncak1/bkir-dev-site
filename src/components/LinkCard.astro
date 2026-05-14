@@ -1,0 +1,41 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+const { title, url, description } = Astro.props;
+
+const hostname = new URL(url).hostname;
+const favicon = `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
+---
+
+<a
+  href={url}
+  class="link-item group flex items-start gap-3 rounded-lg p-2.5 transition-colors hover:bg-neutral-800/70"
+  data-title={title.toLowerCase()}
+  data-host={hostname.toLowerCase()}
+  data-desc={(description ?? "").toLowerCase()}
+>
+  <img
+    src={favicon}
+    alt=""
+    width="20"
+    height="20"
+    loading="lazy"
+    decoding="async"
+    class="mt-0.5 h-5 w-5 shrink-0 rounded-sm bg-neutral-800"
+    onerror="this.style.visibility='hidden'"
+  />
+  <div class="min-w-0 flex-1">
+    <div class="truncate text-sm font-medium text-neutral-100 group-hover:text-white">
+      {title}
+    </div>
+    {
+      description && (
+        <div class="truncate text-xs text-neutral-400">{description}</div>
+      )
+    }
+  </div>
+</a>

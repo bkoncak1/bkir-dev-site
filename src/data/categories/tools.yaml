@@ -1,0 +1,16 @@
+title: Tools
+icon: 🛠️
+order: 3
+links:
+  - title: Cloudflare Dashboard
+    url: https://dash.cloudflare.com/
+    description: Cloudflare beheer
+  - title: regex101
+    url: https://regex101.com/
+    description: Regex playground
+  - title: JSONLint
+    url: https://jsonlint.com/
+    description: JSON validator
+  - title: Excalidraw
+    url: https://excalidraw.com/
+    description: Schets & diagrammen

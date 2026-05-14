@@ -1,0 +1,31 @@
+title: GIS
+icon: 🗺️
+order: 1
+links:
+  - title: Esri ArcGIS Pro Help
+    url: https://pro.arcgis.com/en/pro-app/latest/help/main/welcome-to-the-arcgis-pro-app-help.htm
+    description: Officiële documentatie ArcGIS Pro
+  - title: ArcGIS Online
+    url: https://www.arcgis.com/
+    description: ArcGIS Online portal
+  - title: Esri Developer
+    url: https://developers.arcgis.com/
+    description: Developer documentatie & API's
+  - title: ArcGIS REST API
+    url: https://developers.arcgis.com/rest/
+    description: REST API referentie
+  - title: Safe Software FME Docs
+    url: https://docs.safe.com/
+    description: Officiële FME documentatie
+  - title: FME Community
+    url: https://community.safe.com/
+    description: Forum, kennisbank & demo's
+  - title: QGIS Documentation
+    url: https://docs.qgis.org/latest/en/docs/index.html
+    description: Officiële QGIS documentatie
+  - title: PDOK
+    url: https://www.pdok.nl/
+    description: Publieke Dienstverlening Op de Kaart
+  - title: PDOK Viewer
+    url: https://app.pdok.nl/viewer/
+    description: PDOK kaartviewer

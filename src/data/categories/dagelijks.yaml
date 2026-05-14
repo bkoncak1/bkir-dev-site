@@ -1,0 +1,14 @@
+title: Dagelijks
+icon: ☕
+order: 0
+links:
+  - title: Gmail
+    url: https://mail.google.com/
+  - title: Google Agenda
+    url: https://calendar.google.com/
+  - title: NU.nl
+    url: https://www.nu.nl/
+  - title: Tweakers
+    url: https://tweakers.net/
+  - title: NOS
+    url: https://nos.nl/

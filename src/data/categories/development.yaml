@@ -1,0 +1,22 @@
+title: Development
+icon: 💻
+order: 2
+links:
+  - title: MDN Web Docs
+    url: https://developer.mozilla.org/
+    description: Web platform documentatie
+  - title: GitHub
+    url: https://github.com/
+    description: Source hosting & issues
+  - title: Stack Overflow
+    url: https://stackoverflow.com/
+    description: Q&A voor developers
+  - title: Astro Docs
+    url: https://docs.astro.build/
+    description: Astro framework documentatie
+  - title: TypeScript Docs
+    url: https://www.typescriptlang.org/docs/
+    description: TypeScript referentie
+  - title: Python Docs
+    url: https://docs.python.org/3/
+    description: Python 3 officiële docs
