@@ -1,10 +1,10 @@
 title: Waternet (acceptatie)
-icon: ☕
+icon: 💧
 order: 0
 links:
   - title: portal
     url: https://mapsa.waternet.nl/portal
   - title: portaladmin
     url: https://mapsa.waternet.nl/portal/portaladmin
-   - title: mapsa
-     url: https://mapsa.waternet.nl/portal
+  - title: mapsa
+    url: https://mapsa.waternet.nl/portal
