@@ -18,9 +18,9 @@ const totalLinks = categories.reduce(
     <header class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          Startpagina
+          Start<span class="text-waternet-cyan">pagina</span>
         </h1>
-        <p class="text-sm text-neutral-400">
+        <p class="text-sm text-white/60">
           {categories.length} categorieën · {totalLinks} links
         </p>
       </div>
@@ -32,7 +32,7 @@ const totalLinks = categories.reduce(
           autocomplete="off"
           autocapitalize="off"
           spellcheck="false"
-          class="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm text-neutral-100 placeholder-neutral-500 focus:border-neutral-600 focus:outline-none"
+          class="w-full rounded-lg border border-waternet-cyan/30 bg-waternet-blue-700/60 px-4 py-2 text-sm text-white placeholder-white/40 focus:border-waternet-cyan focus:outline-none"
         />
       </div>
     </header>
@@ -54,7 +54,7 @@ const totalLinks = categories.reduce(
 
     <p
       id="empty"
-      class="mt-12 hidden text-center text-sm text-neutral-500"
+      class="mt-12 hidden text-center text-sm text-white/50"
     >
       Geen links gevonden.
     </p>

@@ -17,13 +17,13 @@ const { title, icon, links } = Astro.props;
 ---
 
 <section
-  class="category-section rounded-xl border border-neutral-800/80 bg-neutral-900/40 p-4"
+  class="category-section rounded-xl border border-waternet-cyan/20 bg-waternet-blue-700/50 p-4"
   data-title={title.toLowerCase()}
 >
-  <h2 class="mb-3 flex items-center gap-2 text-sm font-semibold tracking-wide text-neutral-300 uppercase">
+  <h2 class="mb-3 flex items-center gap-2 text-sm font-semibold tracking-wide text-waternet-cyan uppercase">
     {icon && <span class="text-base">{icon}</span>}
     <span>{title}</span>
-    <span class="ml-auto text-xs font-normal text-neutral-500">
+    <span class="ml-auto text-xs font-normal text-white/50">
       {links.length}
     </span>
   </h2>
