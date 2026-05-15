@@ -16,13 +16,15 @@ const { title = "Startpagina" } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="robots" content="noindex" />
     <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/bkir_favico_32.svg" />
+    <link rel="alternate icon" href="/favico.ico" />
     <link
       rel="preconnect"
       href="https://icons.duckduckgo.com"
       crossorigin
     />
   </head>
-  <body class="min-h-screen bg-waternet-blue text-white antialiased">
+  <body class="min-h-screen bg-canvas text-fg antialiased">
     <slot />
   </body>
 </html>

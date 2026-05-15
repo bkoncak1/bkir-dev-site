@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import CategorySection from "../components/CategorySection.astro";
+import Logo from "../assets/bkir-logo.svg";
 
 const categories = (await getCollection("categories")).sort(
   (a, b) => a.data.order - b.data.order
@@ -17,10 +18,8 @@ const totalLinks = categories.reduce(
   <main class="mx-auto max-w-7xl px-4 py-8 sm:py-12">
     <header class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          Start<span class="text-waternet-cyan">pagina</span>
-        </h1>
-        <p class="text-sm text-white/60">
+        <Logo class="h-10 w-auto sm:h-12" aria-label="bkir" />
+        <p class="mt-2 text-sm text-muted">
           {categories.length} categorieën · {totalLinks} links
         </p>
       </div>
@@ -32,7 +31,7 @@ const totalLinks = categories.reduce(
           autocomplete="off"
           autocapitalize="off"
           spellcheck="false"
-          class="w-full rounded-lg border border-waternet-cyan/30 bg-waternet-blue-700/60 px-4 py-2 text-sm text-white placeholder-white/40 focus:border-waternet-cyan focus:outline-none"
+          class="w-full rounded-lg border border-divider bg-surface/60 px-4 py-2 text-sm text-fg placeholder:text-muted focus:border-accent focus:outline-none"
         />
       </div>
     </header>
@@ -54,7 +53,7 @@ const totalLinks = categories.reduce(
 
     <p
       id="empty"
-      class="mt-12 hidden text-center text-sm text-white/50"
+      class="mt-12 hidden text-center text-sm text-muted"
     >
       Geen links gevonden.
     </p>

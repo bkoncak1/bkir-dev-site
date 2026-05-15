@@ -1,21 +1,43 @@
 @import "tailwindcss";
 
-@theme {
+@theme inline {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Waternet brand */
-  --color-waternet-blue: #000050;
-  --color-waternet-blue-700: #0a0e6b;
-  --color-waternet-blue-600: #1a1f80;
-  --color-waternet-cyan: #00a0ef;
-  --color-waternet-cyan-soft: #4cbef4;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-divider: var(--divider);
 }
 
-html {
-  color-scheme: dark;
+@layer base {
+  :root {
+    /* Light theme — pale mint */
+    --canvas: #c9e6b5;
+    --surface: #b6db9c;
+    --fg: #1f4d1f;
+    --accent: #146614;
+    --muted: #3d6b3d;
+    --divider: #94bd7e;
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Dark theme — deep forest */
+      --canvas: #061306;
+      --surface: #0f1f0f;
+      --fg: #9be29c;
+      --accent: #7be883;
+      --muted: #6ba66b;
+      --divider: #2a4a2a;
+      color-scheme: dark;
+    }
+  }
 }
 
 ::selection {
-  background: var(--color-waternet-cyan);
-  color: var(--color-waternet-blue);
+  background: var(--accent);
+  color: var(--canvas);
 }

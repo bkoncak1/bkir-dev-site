@@ -13,7 +13,7 @@ const favicon = `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
 
 <a
   href={url}
-  class="link-item group flex items-start gap-3 rounded-lg p-2.5 transition-colors hover:bg-waternet-cyan/10"
+  class="link-item group flex items-start gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent/15"
   data-title={title.toLowerCase()}
   data-host={hostname.toLowerCase()}
   data-desc={(description ?? "").toLowerCase()}
@@ -25,16 +25,16 @@ const favicon = `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
     height="20"
     loading="lazy"
     decoding="async"
-    class="mt-0.5 h-5 w-5 shrink-0 rounded-sm bg-waternet-blue-700"
+    class="mt-0.5 h-5 w-5 shrink-0 rounded-sm bg-surface"
     onerror="this.style.visibility='hidden'"
   />
   <div class="min-w-0 flex-1">
-    <div class="truncate text-sm font-medium text-white group-hover:text-waternet-cyan">
+    <div class="truncate text-sm font-medium text-fg group-hover:text-accent">
       {title}
     </div>
     {
       description && (
-        <div class="truncate text-xs text-white/60">{description}</div>
+        <div class="truncate text-xs text-muted">{description}</div>
       )
     }
   </div>
