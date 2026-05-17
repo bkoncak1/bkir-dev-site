@@ -1,4 +1,4 @@
-title: GIS
+title: Esri ArcGIS
 icon: 🗺️
 order: 1
 links:
@@ -12,7 +12,7 @@ links:
     url: https://developers.arcgis.com/
     description: Developer documentatie & API's
   - title: ArcGIS REST API
-    url: https://developers.arcgis.com/rest/
+    url: https://developers.arcgis.com/rest/users-groups-and-items/self/
     description: REST API referentie
   - title: Safe Software FME Docs
     url: https://docs.safe.com/
