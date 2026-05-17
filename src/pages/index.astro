@@ -23,17 +23,53 @@ const totalLinks = categories.reduce(
           {categories.length} categorieën · {totalLinks} links
         </p>
       </div>
-      <div class="relative w-full sm:w-80">
-        <input
-          id="search"
-          type="search"
-          placeholder="Filter links… (druk een toets)"
-          autocomplete="off"
-          autocapitalize="off"
-          spellcheck="false"
-          class="w-full rounded-lg border border-divider bg-surface/60 px-4 py-2 text-sm text-fg placeholder:text-muted focus:border-accent focus:outline-none"
-        />
+      <div class="search-slot relative w-full min-h-[38px] sm:w-96">
+        <div id="search-wrap" class="w-full">
+          <div class="relative">
+            <input
+              id="search"
+              type="search"
+              placeholder="Zoek of filter… ↵ = DuckDuckGo"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              class="w-full rounded-lg border border-divider bg-surface/60 px-4 py-2 pr-10 text-sm text-fg placeholder:text-muted focus:border-accent focus:outline-none"
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+              class="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-muted"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M9 3a6 6 0 1 0 3.86 10.58l3.28 3.28a1 1 0 0 0 1.42-1.42l-3.28-3.28A6 6 0 0 0 9 3Zm-4 6a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <ul
+            id="suggestions"
+            role="listbox"
+            class="mt-2 hidden max-h-[50vh] overflow-y-auto rounded-lg border border-divider bg-surface shadow-2xl"
+          ></ul>
+          <div id="empty" class="mt-4 hidden text-center text-sm">
+            <p class="mb-3 text-muted">Geen links gevonden voor je zoekterm.</p>
+            <a
+              id="ddg-link"
+              href="https://duckduckgo.com/"
+              class="inline-flex items-center gap-2 rounded-lg border border-divider bg-surface/80 px-4 py-2 text-fg transition-colors hover:bg-accent/15 hover:text-accent"
+            >
+              <span
+                >Zoek "<span id="ddg-q" class="font-medium text-accent">…</span>" op DuckDuckGo</span
+              >
+              <kbd class="rounded border border-divider px-1.5 py-0.5 text-xs">↵</kbd>
+            </a>
+          </div>
+        </div>
       </div>
+      <div id="search-backdrop" aria-hidden="true"></div>
     </header>
 
     <div
@@ -51,16 +87,13 @@ const totalLinks = categories.reduce(
       }
     </div>
 
-    <p
-      id="empty"
-      class="mt-12 hidden text-center text-sm text-muted"
-    >
-      Geen links gevonden.
-    </p>
   </main>
 
   <script>
     const input = document.getElementById("search") as HTMLInputElement;
+    const wrap = document.getElementById("search-wrap")!;
+    const backdrop = document.getElementById("search-backdrop")!;
+    const suggList = document.getElementById("suggestions")!;
     const links = Array.from(
       document.querySelectorAll<HTMLAnchorElement>(".link-item")
     );
@@ -68,10 +101,86 @@ const totalLinks = categories.reduce(
       document.querySelectorAll<HTMLElement>(".category-section")
     );
     const empty = document.getElementById("empty")!;
+    const ddgLink = document.getElementById("ddg-link") as HTMLAnchorElement;
+    const ddgQ = document.getElementById("ddg-q")!;
+
+    const MAX_SUGGESTIONS = 8;
+    let selectedIdx = 0;
+    let currentSuggestions: HTMLAnchorElement[] = [];
+
+    function ddgUrl(q: string) {
+      return `https://duckduckgo.com/?q=${encodeURIComponent(q)}`;
+    }
+
+    function renderSuggestions(matches: HTMLAnchorElement[]) {
+      suggList.innerHTML = "";
+      currentSuggestions = matches.slice(0, MAX_SUGGESTIONS);
+      if (currentSuggestions.length === 0) {
+        suggList.classList.add("hidden");
+        return;
+      }
+      suggList.classList.remove("hidden");
+      currentSuggestions.forEach((linkEl, i) => {
+        const title =
+          linkEl.querySelector(".link-title")?.textContent?.trim() ?? "";
+        const desc =
+          linkEl.querySelector(".link-desc")?.textContent?.trim() ?? "";
+        const favicon =
+          (linkEl.querySelector("img") as HTMLImageElement | null)?.src ?? "";
+        const host = linkEl.dataset.host ?? "";
+
+        const li = document.createElement("li");
+        li.setAttribute("role", "option");
+        li.dataset.idx = String(i);
+        li.className =
+          "suggestion flex cursor-pointer items-start gap-3 border-b border-divider/40 px-3 py-2.5 last:border-b-0";
+        li.innerHTML = `
+          <img src="${favicon}" alt="" width="20" height="20" loading="lazy" class="mt-0.5 h-5 w-5 shrink-0 rounded-sm bg-canvas" onerror="this.style.visibility='hidden'" />
+          <div class="min-w-0 flex-1">
+            <div class="truncate text-sm font-medium text-fg">${escapeHtml(title)}</div>
+            <div class="truncate text-xs text-muted">${escapeHtml(desc || host)}</div>
+          </div>
+        `;
+        li.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          linkEl.click();
+        });
+        li.addEventListener("mouseenter", () => {
+          selectedIdx = i;
+          updateSelection();
+        });
+        suggList.appendChild(li);
+      });
+      selectedIdx = 0;
+      updateSelection();
+    }
+
+    function updateSelection() {
+      Array.from(suggList.children).forEach((li, i) => {
+        li.classList.toggle("bg-accent/15", i === selectedIdx);
+        li.classList.toggle("text-accent", i === selectedIdx);
+      });
+      const sel = suggList.children[selectedIdx] as HTMLElement | undefined;
+      sel?.scrollIntoView({ block: "nearest" });
+    }
+
+    function escapeHtml(s: string) {
+      return s.replace(
+        /[&<>"']/g,
+        (c) =>
+          ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          })[c]!
+      );
+    }
 
     function applyFilter(q: string) {
       const query = q.trim().toLowerCase();
-      let visible = 0;
+      const matches: HTMLAnchorElement[] = [];
 
       for (const link of links) {
         const haystack =
@@ -82,7 +191,7 @@ const totalLinks = categories.reduce(
           (link.dataset.desc ?? "");
         const match = !query || haystack.includes(query);
         link.classList.toggle("hidden", !match);
-        if (match) visible++;
+        if (match) matches.push(link);
       }
 
       for (const section of sections) {
@@ -92,34 +201,84 @@ const totalLinks = categories.reduce(
         section.classList.toggle("hidden", anyVisible === 0);
       }
 
-      empty.classList.toggle("hidden", visible !== 0);
+      // Suggestions only show when there's a query AND there are matches
+      if (query !== "" && matches.length > 0) {
+        renderSuggestions(matches);
+      } else {
+        suggList.classList.add("hidden");
+        currentSuggestions = [];
+      }
+
+      const showEmpty = query !== "" && matches.length === 0;
+      empty.classList.toggle("hidden", !showEmpty);
+      if (showEmpty) {
+        ddgQ.textContent = query;
+        ddgLink.href = ddgUrl(query);
+      }
+    }
+
+    function activate() {
+      document.body.classList.add("search-active");
+    }
+
+    function deactivate() {
+      document.body.classList.remove("search-active");
     }
 
     input.addEventListener("input", () => applyFilter(input.value));
+    input.addEventListener("focus", activate);
 
-    // Auto-focus search on any printable keystroke
+    document.addEventListener("focusin", (e) => {
+      if (!wrap.contains(e.target as Node)) deactivate();
+    });
+
+    backdrop.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      input.blur();
+      deactivate();
+    });
+
     document.addEventListener("keydown", (e) => {
-      if (e.target === input) return;
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.key === "Escape") {
         input.value = "";
         applyFilter("");
         input.blur();
+        deactivate();
         return;
       }
+      if (e.target === input) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.key.length === 1) {
         input.focus();
       }
     });
 
-    // Submit Enter → if exactly one link visible, navigate to it
     input.addEventListener("keydown", (e) => {
-      if (e.key !== "Enter") return;
-      const visible = links.filter((l) => !l.classList.contains("hidden"));
-      if (visible.length >= 1) {
+      if (e.key === "ArrowDown") {
         e.preventDefault();
-        visible[0].click();
+        if (currentSuggestions.length > 0) {
+          selectedIdx = (selectedIdx + 1) % currentSuggestions.length;
+          updateSelection();
+        }
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (currentSuggestions.length > 0) {
+          selectedIdx =
+            (selectedIdx - 1 + currentSuggestions.length) %
+            currentSuggestions.length;
+          updateSelection();
+        }
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        const query = input.value.trim();
+        if (currentSuggestions.length > 0) {
+          currentSuggestions[selectedIdx].click();
+        } else if (query !== "") {
+          window.location.href = ddgUrl(query);
+        }
       }
     });
+
+    input.addEventListener("search", () => applyFilter(input.value));
   </script>
 </Layout>

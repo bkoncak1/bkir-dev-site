@@ -29,12 +29,12 @@ const favicon = `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
     onerror="this.style.visibility='hidden'"
   />
   <div class="min-w-0 flex-1">
-    <div class="truncate text-sm font-medium text-fg group-hover:text-accent">
+    <div class="link-title truncate text-sm font-medium text-fg group-hover:text-accent">
       {title}
     </div>
     {
       description && (
-        <div class="truncate text-xs text-muted">{description}</div>
+        <div class="link-desc truncate text-xs text-muted">{description}</div>
       )
     }
   </div>

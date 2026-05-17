@@ -41,3 +41,42 @@
   background: var(--accent);
   color: var(--canvas);
 }
+
+/* Spotlight-style search: flies to center when focused */
+#search-wrap {
+  transition:
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    width 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.search-active #search-wrap {
+  position: fixed;
+  top: 28vh;
+  left: 50%;
+  width: min(92vw, 640px);
+  transform: translate(-50%, -50%);
+  z-index: 50;
+}
+
+body.search-active #search-wrap input {
+  padding-block: 0.875rem;
+  padding-inline: 1.125rem;
+  font-size: 1rem;
+  box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.35);
+}
+
+#search-backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--canvas) 70%, transparent);
+  backdrop-filter: blur(6px);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+body.search-active #search-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
