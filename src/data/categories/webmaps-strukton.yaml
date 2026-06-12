@@ -1,0 +1,18 @@
+title: WebMaps SRSL
+icon: 🛠️
+order: 10
+links:
+  - title: SRNL 04.01.02 Asset informatie
+    url: https://struktonrail.maps.arcgis.com/apps/mapviewer/index.html?webmap=4db34bbd1b4f4c49bd0c0b0175d8a93a
+  - title: SRNL 04.04.01 Conditie opname v2
+    url: https://struktonrail.maps.arcgis.com/apps/mapviewer/index.html?webmap=a8b30aeab26c4bd7b2bba5c7777f4643
+  - title: SRNL 04.04.01 Analyse
+    url: https://struktonrail.maps.arcgis.com/apps/mapviewer/index.html?webmap=8550103cad024e268c723d0d5830bf83
+  - title: SRNL 04.04.02 Veilige berijdbaarheid
+    url: https://struktonrail.maps.arcgis.com/apps/mapviewer/index.html?webmap=f428a58ef5ae4d2ebcc302b180904018
+  - title: SRNL 04.04.03 Verklaring veilige berijdbaarheid
+    url: https://struktonrail.maps.arcgis.com/apps/mapviewer/index.html?webmap=d356da6adf8847caa66c9c47d8d702e9
+  - title: SRNL 04.04.04 Onderhoud
+    url: https://struktonrail.maps.arcgis.com/apps/mapviewer/index.html?webmap=ee26c2b4da054381be2c7df80b36c0cf
+  - title: SRNL 04.04.08 Seinwezen
+    url: https://struktonrail.maps.arcgis.com/apps/mapviewer/index.html?webmap=302f34879e6c4d3db4c9fa3dad5bd6d4

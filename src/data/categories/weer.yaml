@@ -1,0 +1,6 @@
+title: Weather
+order: 3
+links:
+  - title: Cloudflare Dashboard
+    url: https://dash.cloudflare.com/
+    description: Cloudflare beheer
